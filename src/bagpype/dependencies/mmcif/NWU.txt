@@ -1,0 +1,31 @@
+RESIDUE   NWU     29
+CONECT      H1     1 C2  
+CONECT      C2     3 H1   C3   C16 
+CONECT      C3     3 C2   H4   C5  
+CONECT      H4     1 C3  
+CONECT      C5     3 C3   H6   C7  
+CONECT      H6     1 C5  
+CONECT      C7     3 C5   C8   C15 
+CONECT      C8     3 C7   N9   C12 
+CONECT      N9     3 C8   H10  H11 
+CONECT      H10    1 N9  
+CONECT      H11    1 N9  
+CONECT      C12    3 C8   C13  C27 
+CONECT      C13    3 C12  N14  C18 
+CONECT      N14    2 C13  C15 
+CONECT      C15    3 C7   N14  C16 
+CONECT      C16    3 C2   C15  H17 
+CONECT      H17    1 C16 
+CONECT      C18    4 C13  H19  H20  C21 
+CONECT      H19    1 C18 
+CONECT      H20    1 C18 
+CONECT      C21    4 C18  H22  H23  C24 
+CONECT      H22    1 C21 
+CONECT      H23    1 C21 
+CONECT      C24    4 C21  H25  H26  C27 
+CONECT      H25    1 C24 
+CONECT      H26    1 C24 
+CONECT      C27    4 C12  C24  H28  H29 
+CONECT      H28    1 C27 
+CONECT      H29    1 C27 
+END
