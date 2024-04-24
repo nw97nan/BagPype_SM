@@ -517,7 +517,8 @@ class PDBParser(object):
                 + "/bagpype/dependencies/reduce"
                 + " -Quiet -BUILD -DB "
                 + current_directory
-                + "/bagpype/dependencies/reduce_wwPDB_het_dict_sm.txt "
+                # + "/bagpype/dependencies/reduce_wwPDB_het_dict_sm.txt "
+                + "/bagpype/dependencies/NWU.txt "
                 + self.pdb_filename
                 + " > "
                 + self.pdb_filename[0:-4]
@@ -533,7 +534,8 @@ class PDBParser(object):
                 + "/bagpype/dependencies/reduce.macosx"
                 + " -Quiet -BUILD -DB "
                 + current_directory
-                + "/bagpype/dependencies/reduce_wwPDB_het_dict_sm.txt "
+                # + "/bagpype/dependencies/reduce_wwPDB_het_dict_sm.txt "
+                + "/bagpype/dependencies/NWU.txt "
                 + self.pdb_filename
                 + " > "
                 + self.pdb_filename[0:-4]

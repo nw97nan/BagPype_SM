@@ -1,0 +1,30 @@
+USER  MOD reduce.3.23.130521 H: found=0, std=0, add=14, rem=0, adj=0
+HETATM    1  C2  NWU     1       1.995   0.082   0.059  1.00  0.00           C
+HETATM    2  C3  NWU     1       2.637  -1.147   0.096  1.00  0.00           C
+HETATM    3  C5  NWU     1       4.030  -1.193   0.091  1.00  0.00           C
+HETATM    4  C7  NWU     1       4.815  -0.013   0.033  1.00  0.00           C
+HETATM    5  C8  NWU     1       6.238   0.008  -0.007  1.00  0.00           C
+HETATM    6  N9  NWU     1       6.977  -1.176   0.237  1.00  0.00           N
+HETATM    7  C12 NWU     1       6.909   1.246  -0.056  1.00  0.00           C
+HETATM    8  C13 NWU     1       6.136   2.412  -0.058  1.00  0.00           C
+HETATM    9  N14 NWU     1       4.785   2.402  -0.051  1.00  0.00           N
+HETATM   10  C15 NWU     1       4.144   1.228  -0.007  1.00  0.00           C
+HETATM   11  C16 NWU     1       2.756   1.250   0.013  1.00  0.00           C
+HETATM   12  C18 NWU     1       6.761   3.783  -0.107  1.00  0.00           C
+HETATM   13  C21 NWU     1       8.238   3.792   0.271  1.00  0.00           C
+HETATM   14  C24 NWU     1       8.961   2.693  -0.488  1.00  0.00           C
+HETATM   15  C27 NWU     1       8.419   1.327  -0.070  1.00  0.00           C
+HETATM   16  H6  NWU     1       4.474  -2.054   0.128  1.00  0.00           H   new
+HETATM   17  H4  NWU     1       2.121  -1.968   0.125  1.00  0.00           H   new
+HETATM   18  H29 NWU     1       8.754   1.113   0.815  1.00  0.00           H   new
+HETATM   19  H28 NWU     1       8.765   0.652  -0.675  1.00  0.00           H   new
+HETATM   20  H26 NWU     1       8.844   2.818  -1.443  1.00  0.00           H   new
+HETATM   21  H25 NWU     1       9.914   2.740  -0.311  1.00  0.00           H   new
+HETATM   22  H23 NWU     1       8.630   4.654   0.062  1.00  0.00           H   new
+HETATM   23  H22 NWU     1       8.338   3.658   1.227  1.00  0.00           H   new
+HETATM   24  H20 NWU     1       6.661   4.144  -1.002  1.00  0.00           H   new
+HETATM   25  H19 NWU     1       6.277   4.373   0.493  1.00  0.00           H   new
+HETATM   26  H17 NWU     1       2.300   2.106  -0.006  1.00  0.00           H   new
+HETATM   27  H11 NWU     1       7.836  -1.159   0.212  1.00  0.00           H   new
+HETATM   28  H10 NWU     1       6.566  -1.911   0.410  1.00  0.00           H   new
+HETATM   29  H1  NWU     1       1.026   0.129   0.065  1.00  0.00           H   new
