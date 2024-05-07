@@ -22,35 +22,18 @@ _chem_comp_atom.pdbx_model_Cartn_z_ideal
 _chem_comp_atom.pdbx_component_atom_id 
 _chem_comp_atom.pdbx_component_comp_id 
 _chem_comp_atom.pdbx_ordinal 
-NWU H1   H1   H  0 1 N N N 0.870   -0.038  -0.034  0.870   -0.038  -0.034  H1   NWU 1  
-NWU C2   C2   C  0 1 Y N N 1.955   -0.094  -0.043  1.955   -0.094  -0.043  C2   NWU 2  
-NWU C3   C3   C  0 1 Y N N 2.596   -1.321  0.002   2.596   -1.321  0.002   C3   NWU 3  
-NWU H4   H4   H  0 1 N N N 2.019   -2.241  0.041   2.019   -2.241  0.041   H4   NWU 4  
-NWU C5   C5   C  0 1 Y N N 3.991   -1.367  -0.004  3.991   -1.367  -0.004  C5   NWU 5  
-NWU H6   H6   H  0 1 N N N 4.460   -2.344  0.036   4.460   -2.344  0.036   H6   NWU 6  
-NWU C7   C7   C  0 1 Y N N 4.774   -0.185  -0.070  4.774   -0.185  -0.070  C7   NWU 7  
-NWU C8   C8   C  0 1 Y N N 6.198   -0.164  -0.112  6.198   -0.164  -0.112  C8   NWU 8  
-NWU N9   N9   N  0 1 N N N 6.938   -1.347  0.124   6.938   -1.347  0.124   N9   NWU 9  
-NWU H10  H10  H  0 1 N N N 6.479   -2.197  -0.182  6.479   -2.197  -0.182  H10  NWU 10 
-NWU H11  H11  H  0 1 N N N 7.902   -1.320  -0.185  7.902   -1.320  -0.185  H11  NWU 11 
-NWU C12  C12  C  0 1 Y N N 6.868   1.076   -0.157  6.868   1.076   -0.157  C12  NWU 12 
-NWU C13  C13  C  0 1 Y N N 6.093   2.241   -0.160  6.093   2.241   -0.160  C13  NWU 13 
-NWU N14  N14  N  0 1 Y N N 4.742   2.229   -0.159  4.742   2.229   -0.159  N14  NWU 14 
-NWU C15  C15  C  0 1 Y N N 4.102   1.054   -0.113  4.102   1.054   -0.113  C15  NWU 15 
-NWU C16  C16  C  0 1 Y N N 2.714   1.076   -0.095  2.714   1.076   -0.095  C16  NWU 16 
-NWU H17  H17  H  0 1 N N N 2.207   2.038   -0.121  2.207   2.038   -0.121  H17  NWU 17 
-NWU C18  C18  C  0 1 N N N 6.716   3.614   -0.208  6.716   3.614   -0.208  C18  NWU 18 
-NWU H19  H19  H  0 1 N N N 6.167   4.288   0.460   6.167   4.288   0.460   H19  NWU 19 
-NWU H20  H20  H  0 1 N N N 6.599   4.000   -1.229  6.599   4.000   -1.229  H20  NWU 20 
-NWU C21  C21  C  0 1 N N N 8.191   3.627   0.173   8.191   3.627   0.173   C21  NWU 21 
-NWU H22  H22  H  0 1 N N N 8.304   3.474   1.254   8.304   3.474   1.254   H22  NWU 22 
-NWU H23  H23  H  0 1 N N N 8.627   4.604   -0.063  8.627   4.604   -0.063  H23  NWU 23 
-NWU C24  C24  C  0 1 N N N 8.920   2.526   -0.579  8.920   2.526   -0.579  C24  NWU 24 
-NWU H25  H25  H  0 1 N N N 8.787   2.668   -1.660  8.787   2.668   -1.660  H25  NWU 25 
-NWU H26  H26  H  0 1 N N N 9.996   2.573   -0.381  9.996   2.573   -0.381  H26  NWU 26 
-NWU C27  C27  C  0 1 N N N 8.377   1.159   -0.163  8.377   1.159   -0.163  C27  NWU 27 
-NWU H28  H28  H  0 1 N N N 8.792   0.423   -0.861  8.792   0.423   -0.861  H28  NWU 28 
-NWU H29  H29  H  0 1 N N N 8.740   0.917   0.843   8.740   0.917   0.843   H29  NWU 29 
+NWU C1   C1   C  0 1 N N N -0.500  1.414   0.000   -0.500  1.414   0.000   C1   NWU 1  
+NWU C2   C2   C  0 1 N N N 0.000   0.000   0.000   0.000   0.000   0.000   C2   NWU 2  
+NWU C3   C3   C  0 1 N N N 1.500   0.000   0.000   1.500   0.000   0.000   C3   NWU 3  
+NWU O4   O4   O  0 1 N N N 1.960   -1.301  0.000   1.960   -1.301  0.000   O4   NWU 4  
+NWU H5   H5   H  0 1 N N N -1.590  1.414   0.000   -1.590  1.414   0.000   H5   NWU 5  
+NWU H6   H6   H  0 1 N N N -0.137  1.928   0.890   -0.137  1.928   0.890   H6   NWU 6  
+NWU H7   H7   H  0 1 N N N -0.137  1.928   -0.890  -0.137  1.928   -0.890  H7   NWU 7  
+NWU H8   H8   H  0 1 N N N -0.363  -0.514  -0.890  -0.363  -0.514  -0.890  H8   NWU 8  
+NWU H9   H9   H  0 1 N N N -0.363  -0.514  0.890   -0.363  -0.514  0.890   H9   NWU 9  
+NWU H10  H10  H  0 1 N N N 1.863   0.514   0.890   1.863   0.514   0.890   H10  NWU 10 
+NWU H11  H11  H  0 1 N N N 1.863   0.514   -0.890  1.863   0.514   -0.890  H11  NWU 11 
+NWU H12  H12  H  0 1 N N N 2.955   -1.397  0.000   2.955   -1.397  0.000   H12  NWU 12 
 # 
 #
 loop_
@@ -61,34 +44,14 @@ _chem_comp_bond.value_order
 _chem_comp_bond.pdbx_aromatic_flag 
 _chem_comp_bond.pdbx_stereo_config 
 _chem_comp_bond.pdbx_ordinal 
-NWU H1   C2   SING N N 1  
-NWU C2   C3   SING Y N 2  
-NWU C2   C16  DOUB Y N 3  
-NWU C3   H4   SING N N 4  
-NWU C3   C5   DOUB Y N 5  
-NWU C5   H6   SING N N 6  
-NWU C5   C7   SING Y N 7  
-NWU C7   C8   SING Y N 8  
-NWU C7   C15  DOUB Y N 9  
-NWU C8   N9   SING N N 10 
-NWU C8   C12  DOUB Y N 11 
-NWU N9   H10  SING N N 12 
-NWU N9   H11  SING N N 13 
-NWU C12  C13  SING Y N 14 
-NWU C12  C27  SING N N 15 
-NWU C13  N14  DOUB Y N 16 
-NWU C13  C18  SING N N 17 
-NWU N14  C15  SING Y N 18 
-NWU C15  C16  SING Y N 19 
-NWU C16  H17  SING N N 20 
-NWU C18  H19  SING N N 21 
-NWU C18  H20  SING N N 22 
-NWU C18  C21  SING N N 23 
-NWU C21  H22  SING N N 24 
-NWU C21  H23  SING N N 25 
-NWU C21  C24  SING N N 26 
-NWU C24  H25  SING N N 27 
-NWU C24  H26  SING N N 28 
-NWU C24  C27  SING N N 29 
-NWU C27  H28  SING N N 30 
-NWU C27  H29  SING N N 31 
+NWU C1   C2   SING N N 1  
+NWU C1   H5   SING N N 2  
+NWU C1   H6   SING N N 3  
+NWU C1   H7   SING N N 4  
+NWU C2   C3   SING N N 5  
+NWU C2   H8   SING N N 6  
+NWU C2   H9   SING N N 7  
+NWU C3   O4   SING N N 8  
+NWU C3   H10  SING N N 9  
+NWU C3   H11  SING N N 10 
+NWU O4   H12  SING N N 11 

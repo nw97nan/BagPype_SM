@@ -1,0 +1,2 @@
+bond_id,bond_type,bond_weight,bond_distance,atom1_id,atom1_name,atom1_res_name,atom1_res_num,atom1_chain,atom2_id,atom2_name,atom2_res_name,atom2_res_num,atom2_chain
+0,COVALENT,85.5640535373,1.38,0,C1,NWU,1, ,1,O2,NWU,1, 

@@ -1,0 +1,23 @@
+USER  MOD reduce.3.23.130521 H: found=0, std=0, add=10, rem=0, adj=1
+USER  MOD -----------------------------------------------------------------
+USER  MOD scores for adjustable sidechains, with "set" totals for H,N and Q
+USER  MOD "o" means original, "f" means flipped, "180deg" is methyl default
+USER  MOD "!" flags a clash with an overlap of 0.40A or greater
+USER  MOD flip categories: "K"=keep, "C"=clashes, "X"=uncertain, "F"=flip
+USER  MOD Single :     1 NWU O5  :   rot  180:sc= -0.0313
+USER  MOD -----------------------------------------------------------------
+HETATM    1  C1  NWU     1      -0.500  -0.707  -1.225  1.00  0.00           C
+HETATM    2  C2  NWU     1       0.000   0.000   0.000  1.00  0.00           C
+HETATM    3  C3  NWU     1      -0.500   1.414   0.000  1.00  0.00           C
+HETATM    4  C4  NWU     1       1.500   0.000   0.000  1.00  0.00           C
+HETATM    5  O5  NWU     1       1.960   0.650   1.127  1.00  0.00           O
+HETATM    6  H9  NWU     1      -0.323  -0.457   0.792  1.00  0.00           H   new
+HETATM    7  H8  NWU     1      -1.470  -0.707  -1.225  1.00  0.00           H   new
+HETATM    8  H7  NWU     1      -0.177  -0.250  -2.017  1.00  0.00           H   new
+HETATM    9  H6  NWU     1      -0.177  -1.622  -1.226  1.00  0.00           H   new
+HETATM   10  H15 NWU     1       2.800   0.649   1.128  1.00  0.00           H   new
+HETATM   11  H14 NWU     1       1.833  -0.911  -0.018  1.00  0.00           H   new
+HETATM   12  H13 NWU     1       1.833   0.440  -0.798  1.00  0.00           H   new
+HETATM   13  H12 NWU     1      -0.177   1.872  -0.792  1.00  0.00           H   new
+HETATM   14  H11 NWU     1      -1.470   1.414  -0.000  1.00  0.00           H   new
+HETATM   15  H10 NWU     1      -0.177   1.872   0.792  1.00  0.00           H   new
