@@ -82,7 +82,12 @@ class Ligand_generation():
     # This extracts information on bonds (atoms and bond order) from the .mol file of the ligand
     def bonds_info(self):
         with open(self.mol) as f:
-            mol_data = [_.split()[:3] for _ in f.read().splitlines() if len(_.split()) == 7 or len(_.split()) == 4] # 7 for .mol from Avogadro and 4 for .mol from RDKit
+            # 7 for MOL file from Avogadro, 4 for MOL file from RDKit and 3 for MDL file from CCDC Python API
+            mol_data = []
+            for line in f.read().splitlines():
+                if 'M' not in line and 'Gaussian' not in line and 'Schrodinger' not in line and (len(line.split()) == 7 or len(line.split()) == 4 or len(line.split()) == 3):
+                        mol_data.append(line.split()[:3])
+
         bonds_data = []
         bond_num = 1
         for bond in mol_data:
