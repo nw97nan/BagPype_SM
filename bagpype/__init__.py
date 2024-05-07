@@ -7,6 +7,9 @@ import bagpype.parsing
 
 import bagpype.settings
 
+import bagpype.run_bagpype
+import bagpype.helper_funcs
+
 from bagpype.molecules import Protein
 from bagpype.parsing import PDBParser
 from bagpype.construction import Graph_constructor
@@ -27,18 +30,18 @@ head_string = (
     u""
 )
 
-print(head_string)
+# print(head_string)
 # Finish importing with a random quote.
-import requests
+# import requests
 
-try:
-    response = requests.get("https://api.quotable.io/random")
-    if response.status_code == 200:
-        response = response.json()
-        print('"' + response["content"] + '"')
-        print("by " + response["author"] + "\n")
-except:
-    pass
+# try:
+#     response = requests.get("https://api.quotable.io/random")
+#     if response.status_code == 200:
+#         response = response.json()
+#         print('"' + response["content"] + '"')
+#         print("by " + response["author"] + "\n")
+# except:
+#     pass
 ################################################
 
 
