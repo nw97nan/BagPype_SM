@@ -15,6 +15,7 @@ formatter = logging.Formatter('%(levelname)s:%(asctime)s:%(name)s:%(message)s')
 fh = logging.FileHandler('{}.log'.format(__name__))
 fh.setFormatter(formatter)
 sh = logging.StreamHandler()
+sh.setLevel(logging.WARNING)
 
 # Add handlers to logger
 logger.addHandler(fh)

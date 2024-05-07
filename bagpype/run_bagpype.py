@@ -4,6 +4,7 @@ import glob
 import logging
 import importlib
 import pathlib
+from tqdm import tqdm
 
 import create_ligand_Bagpype as create_files
 from bagpype.helper_funcs import create_dir, check_dirpath
@@ -11,14 +12,16 @@ from bagpype.helper_funcs import create_dir, check_dirpath
 
 # Setup logger
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+# logger.setLevel(logging.INFO)
 formatter = logging.Formatter('%(levelname)s:%(asctime)s:%(name)s:%(message)s')
 
 # Define handlers
 # fh = logging.FileHandler('{}.log'.format(__name__))
 fh = logging.FileHandler('batch_run_bagpype.log')
+fh.setLevel(logging.INFO)
 fh.setFormatter(formatter)
 sh = logging.StreamHandler()
+sh.setLevel(logging.WARNING)
 
 # Add handlers to logger
 logger.addHandler(fh)
@@ -71,6 +74,7 @@ def run_bagpype(
 
     ggenerator.construct_graph(
         myprot,
+        mol_id,
         atoms_file_name=atoms_file_name,
         bonds_file_name=bonds_file_name,
     )
@@ -86,10 +90,20 @@ def batch_run_bagpype(mol_dir, mol2_dir, output_dir):
     mol_dict = {get_id(file): file for file in mol_files}
     mol2_dict = {get_id(file): file for file in mol2_files}
 
+    # Setup tqdm tracking bar
+    pbar = tqdm(total=len(mol_dict))
+
     for mol_id in mol_dict.keys():
+
+        pbar.set_description(f'Working on {mol_id}')
+
         run_bagpype(
             mol_id=mol_id,
             mol_file=mol_dict[mol_id],
             mol2_file=mol2_dict[mol_id],
             output_dir=output_dir,
         )
+
+        pbar.update()
+    
+    pbar.close()

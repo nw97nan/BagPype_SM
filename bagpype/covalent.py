@@ -16,6 +16,25 @@ import os
 import bagpype.parameters
 from bagpype.errors import MissingEnergyError, UnknownResidueError, UnusualCIFFile
 from CifFile import ReadCif
+import logging
+
+
+# Setup logger
+logger = logging.getLogger(__name__)
+# logger.setLevel(logging.INFO)
+formatter = logging.Formatter('%(levelname)s:%(asctime)s:%(name)s:%(message)s')
+
+# Define handlers
+fh = logging.FileHandler('{}.log'.format(__name__))
+fh.setLevel(logging.INFO)
+fh.setFormatter(formatter)
+sh = logging.StreamHandler()
+sh.setLevel(logging.WARNING)
+
+# Add handlers to logger
+logger.addHandler(fh)
+logger.addHandler(sh)
+
 
 # Bond energies in kJ/mol taken from parameters.py
 
@@ -32,7 +51,7 @@ def generate_energies_dictionary(AA, nomenclature="new"):
 
     AA = [AA] if isinstance(AA, str) else AA
 
-    print(("Initialising covalent bond energies for " + ", ".join(AA)))
+    logger.info(("Initialising covalent bond energies for " + ", ".join(AA)))
 
     for aa in AA:
 

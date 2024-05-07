@@ -9,6 +9,24 @@ import numpy as np
 import time
 import itertools
 import pandas as pd
+import logging
+
+
+# Setup logger
+logger = logging.getLogger(__name__)
+# logger.setLevel(logging.INFO)
+formatter = logging.Formatter('%(levelname)s:%(asctime)s:%(name)s:%(message)s')
+
+# Define handlers
+fh = logging.FileHandler('{}.log'.format(__name__))
+fh.setLevel(logging.INFO)
+fh.setFormatter(formatter)
+sh = logging.StreamHandler()
+sh.setLevel(logging.WARNING)
+
+# Add handlers to logger
+logger.addHandler(fh)
+logger.addHandler(sh)
 
 
 #####################################
@@ -61,6 +79,7 @@ class Graph_constructor(object):
     def construct_graph(
         self,
         protein,
+        mol_id,
         atoms_file_name="atoms.csv",
         bonds_file_name="bonds.csv",
         gexf_file_name=None,
@@ -78,8 +97,8 @@ class Graph_constructor(object):
         barebones_graph: Boolean specifying if you want a graph with no nodes/edges data
         """
 
-        print()
-        print("Graph construction started")
+        self.mol_id = mol_id
+        logger.info(f"Graph construction started for {self.mol_id}")
 
         self.protein = protein
 
@@ -149,7 +168,7 @@ class Graph_constructor(object):
         # Check graph is connected
         number_connected_components = nx.number_connected_components(graph)
         if number_connected_components > 1:
-            print(
+            logger.warning(
                 "WARNING: Number of connected components is greater than 1. (It's %d)"
                 % (number_connected_components)
             )
@@ -170,17 +189,17 @@ class Graph_constructor(object):
 
         time2 = time.time()
 
-        print(
-            "Finished constructing the graph!"
+        logger.info(
+            f"Finished constructing the graph for {self.mol_id}!"
             + " #residues = {}, #atoms = {}, #bonds = {}".format(
                 len(self.protein.residues), len(self.protein.atoms), len(self.protein.bonds)
             )
         )
-        print(
+        logger.info(
             "    Time taken = %.2fs, final filename: %s"
             % (time2 - time1, self.protein.pdb_id)
         )
-        print()
+
 
     def _initialise_possible_bonds(self):
         """
@@ -192,7 +211,7 @@ class Graph_constructor(object):
         and so it is to be preferred in most cases!*
         """
 
-        print("Initialising all possible bonds, memory efficiently...")
+        logger.info("Initialising all possible bonds, memory efficiently...")
         atom_coords = self.protein.atoms.coordinates()
 
         self.possible_bonds = {}
@@ -313,7 +332,7 @@ class Graph_constructor(object):
         distance between the two atoms whether a LINK entry is describing
         a covalent bond or electrostatic interaction.
         """
-        print("Processing LINK entries...")
+        logger.info("Processing LINK entries...")
         LINK_bonds = self.protein.LINKs
         LINK_list = []
 
@@ -333,7 +352,7 @@ class Graph_constructor(object):
                         found_atoms[i] = atom
                         break
                 if not found:
-                    print(
+                    logger.warning(
                         (
                             "WARNING: LINK atom {0} {1} {2} {3} not found".format(
                                 LINK_atom["name"],
@@ -372,7 +391,7 @@ class Graph_constructor(object):
         for covalent bonds, depending on whether they are in the same or
         different residues.
         """
-        print("Finding covalent bonds...")
+        logger.info("Finding covalent bonds...")
 
         for atom1 in self.protein.atoms:
             for atom2 in self.protein.atoms[self.possible_bonds[atom1.id]]:
@@ -468,7 +487,7 @@ class Graph_constructor(object):
             lookup = tuple([atom1.element, atom2.element])
             lookup_reversed = tuple([atom2.element, atom1.element])
             if print_warnings:
-                print(
+                logger.warning(
                     "WARNING: Adding bond between {} and {} based on distance constraints using single bond energies!".format(
                         atom1, atom2
                     )
@@ -499,7 +518,7 @@ class Graph_constructor(object):
                 sum([x[1]["is_covalent"] for x in self._LINK_list])
             )
             if are_there_LINK_covalent_bonds:
-                print("    Considering covalent LINK entries...")
+                logger.info("    Considering covalent LINK entries...")
 
                 # To avoid doubly adding covalent LINK entries where they have already been detected, we need the following list of covalent bonds
                 cov_bonds = [
@@ -528,14 +547,14 @@ class Graph_constructor(object):
         """
         Top-level wrapper funciton to determine hydrogen bonds
         """
-        print(
+        logger.info(
             "Finding hydrogen bonds at cutoff = "
             + str(self.H_bond_energy_cutoff)
             + "kcal/mol..."
         )
         total_hydrogen_energy = 0
 
-        print("    Assigning H-bond status...")
+        logger.info("    Assigning H-bond status...")
         # Assign H-bond status to all N, O, S atoms in the structure
         # Very efficient, so ok if some might not get used
         self.Hbond_status = {}
@@ -543,7 +562,7 @@ class Graph_constructor(object):
             if atom.element in ["N", "O", "S"]:
                 self.Hbond_status[atom.id] = self._assign_Hbond_status(atom)
 
-        print("    Applying constraints and computing bond strengths...")
+        logger.info("    Applying constraints and computing bond strengths...")
         # This is where hydrogen bonds are identified
         for hydrogen in [atom for atom in self.protein.atoms if atom.element == "H"]:
             donor = self._find_donor(hydrogen)
@@ -619,7 +638,7 @@ class Graph_constructor(object):
                                     )
                                 )
 
-        print(
+        logger.info(
             "    Total energy of hydrogen bonds and salt bridges: "
             + str(round(total_hydrogen_energy, 2))
             + " kcal/mol"
@@ -1085,7 +1104,7 @@ class Graph_constructor(object):
                 return dict(DonorAcceptor="donor", Charged=True, Hybridisation="sp3")
 
             elif degree > 4:
-                print(
+                logger.warning(
                     "Something went wrong, atom {0} is a Nitrogen".format(atom)
                     + "but has more than 4 covalent bonds"
                 )
@@ -1206,7 +1225,7 @@ class Graph_constructor(object):
                     return dict(DonorAcceptor="acceptor", Charged=False, Hybridisation="sp3")
 
             elif degree > 2:
-                print(
+                logger.warning(
                     "Something went wrong. Atom {0} is an Oxygen ".format(atom)
                     + "but has more than 2 covalent bonds"
                 )
@@ -1251,7 +1270,7 @@ class Graph_constructor(object):
                 return dict(DonorAcceptor="donor", Charged=True, Hybridisation="sp3")
 
             else:
-                print(
+                logger.warning(
                     "Something went wrong. Atom {0} is a Sulfur ".format(atom)
                     + "but has more than 3 covalent bonds. Couldn't determine H-bonding status."
                 )
@@ -1268,7 +1287,7 @@ class Graph_constructor(object):
 
         Florian Song, September 2018 - April 2019
         """
-        print("Finding hydrophobics...")
+        logger.info("Finding hydrophobics...")
 
         # Initiate list of hydrophobic interactions
 
@@ -1330,7 +1349,7 @@ class Graph_constructor(object):
             rmst_graph.remove_edges_from(bridges)
             matches = rmst_graph.edges
 
-            print(
+            logger.info(
                 "    Removed bridges: "
                 + str(len(bridges))
                 + "; Final # hydrophobic interactions: "
@@ -1351,7 +1370,7 @@ class Graph_constructor(object):
             k = int(self.hydrophobic_k_core)
             matches = nx.k_core(rmst_graph, k).edges
 
-            print(
+            logger.info(
                 "    Removed {} k-core shell!".format(
                     str(k) + {1: "st", 2: "nd", 3: "rd"}.get(k % 10, "th")
                 )
@@ -1378,7 +1397,7 @@ class Graph_constructor(object):
         total_hydrophobic_energy = sum(
             [self._all_possible_hphobic_graph[i][j]["energy"] for i, j in matches]
         )
-        print(
+        logger.info(
             "    Total energy of hydrophobic effect: "
             + str(round(total_hydrophobic_energy, 2))
             + " kcal/mol"
@@ -1426,7 +1445,7 @@ class Graph_constructor(object):
             if left_hand_side > right_hand_side:
                 matches += [(i, j)]
 
-        print(
+        logger.info(
             "    RMST sparsification used. Accepted: "
             + str(len(matches) - len(mst.edges))
             + ", rejected: "
@@ -1475,7 +1494,7 @@ class Graph_constructor(object):
             )
         )
 
-        print(
+        logger.info(
             "    RMST sparsification used. Accepted: "
             + str(len(matches) - np.count_nonzero(np.triu(Emst)))
             + ", rejected: "
@@ -1598,7 +1617,7 @@ class Graph_constructor(object):
 
         Florian Song, May 2017
         """
-        print("Finding stacked interactions in DNA...")
+        logger.info("Finding stacked interactions in DNA...")
 
         # Parameters for DNA stacking
         energy_threshold = (
@@ -1814,7 +1833,7 @@ class Graph_constructor(object):
         No input, function will add bonds to internal bond list
         Florian, May 2017
         """
-        print("Finding DNA backbone interactions...")
+        logger.info("Finding DNA backbone interactions...")
 
         # Various parameters
         delta = 0.24  # 0.1522
@@ -1877,7 +1896,7 @@ class Graph_constructor(object):
         """
 
         if self.protein.LINKs:
-            print("Finding electrostatic interactions using LINK entries...")
+            logger.info("Finding electrostatic interactions using LINK entries...")
 
             # epsilon is the dielectric constant
             epsilon = 4
@@ -1894,7 +1913,7 @@ class Graph_constructor(object):
                     bond_length = distance_between_two_atoms(atom1, atom2)
 
                     if bond_length > 10:
-                        print(
+                        logger.warning(
                             (
                                 "WARNING: The LINK entry between {} and {} has a distance value greater than 10A. "
                                 "It will be skipped. A possible reason for this is due to multimer replication."
@@ -1903,7 +1922,7 @@ class Graph_constructor(object):
                         continue
 
                     if LINK_entry[1]["distance"] != round(bond_length, 2):
-                        print(
+                        logger.warning(
                             "WARNING: The LINK entry between {} and {} has a different distance value than the computed one:"
                             " Computed = {}, in PDB = {}. The computed one will be used.".format(
                                 atom1,
@@ -1929,7 +1948,7 @@ class Graph_constructor(object):
                             )
                             self.bonds.append(bond)
                     except (KeyError):
-                        print(
+                        logger.warning(
                             "WARNING: Charge of atom {0} from residue {1} ".format(
                                 atom1.name, atom1.res_name
                             )

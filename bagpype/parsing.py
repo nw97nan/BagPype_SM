@@ -5,10 +5,29 @@ from collections import defaultdict
 import string
 import numpy as np
 import networkx as nx
+import logging
 
 import bagpype.molecules
 
 import bagpype.makemultimer
+
+
+# Setup logger
+logger = logging.getLogger(__name__)
+# logger.setLevel(logging.INFO)
+formatter = logging.Formatter('%(levelname)s:%(asctime)s:%(name)s:%(message)s')
+
+# Define handlers
+fh = logging.FileHandler('{}.log'.format(__name__))
+fh.setLevel(logging.INFO)
+fh.setFormatter(formatter)
+sh = logging.StreamHandler()
+sh.setLevel(logging.WARNING)
+
+# Add handlers to logger
+logger.addHandler(fh)
+logger.addHandler(sh)
+
 
 #####################################
 #                                   #
@@ -101,32 +120,32 @@ class PDBParser(object):
 
         # Detect whether ANISOU entries are present and strip if wanted.
         if strip_ANISOU and any([l.startswith("ANISOU") for l in self.pdb_lines]):
-            print("Removing ANISOU entries")
+            logger.info("Removing ANISOU entries")
             self._strip_ANISOU()
 
         # Strip LINK entries if wanted
         if strip_LINK and any([l.startswith("LINK") for l in self.pdb_lines]):
-            print("Removing LINK entries")
+            logger.info("Removing LINK entries")
             self._strip_LINK_entries()
 
         # Strip all HETATM entries if wanted
         if strip_HETATM and any([l.startswith("HETATM") for l in self.pdb_lines]):
-            print("Removing HETATM entries")
+            logger.info("Removing HETATM entries")
             self._strip_HETATM_entries()
 
         # Strip all CONECT entries if wanted
         if strip_CONECT and any([l.startswith("CONECT") for l in self.pdb_lines]):
-            print("Removing CONECT entries")
+            logger.info("Removing CONECT entries")
             self._strip_CONECT_entries()
 
         # Symmetric subunits are often stored as separate models in bio files
         # if self._check_models():
-        #     print("Combining models")
+        #     logger.info("Combining models")
         #     self._combine_models()
 
         # Strip all models BUT model (int)
         if model is not None and any([l.startswith("MODEL") for l in self.pdb_lines]):
-            print("Selecting model number", model, "and deleting all others")
+            logger.info("Selecting model number", model, "and deleting all others")
             self._strip_models(model)
 
         # Strip certain entries, according to residue name, atom number etc.
@@ -142,7 +161,7 @@ class PDBParser(object):
         if trim_H:
             if trim_H == True:
                 trim_H = "all"
-            print(
+            logger.info(
                 {"all": "Deleting ALL H's", "notHOH": "Deleting H's except in waters"}[
                     trim_H
                 ]
@@ -165,7 +184,7 @@ class PDBParser(object):
         if MakeMultimer_number is not None and any(
             [l.startswith("REMARK 350") for l in self.pdb_lines]
         ):
-            print("Applying MakeMultimer and using Biomolecule number:", MakeMultimer_number)
+            logger.info("Applying MakeMultimer and using Biomolecule number:", MakeMultimer_number)
             self._MakeMultimer_wrapper(MakeMultimer_number)
 
         ### Here, pdb_filename is "1xyz_stripped_mm#.pdb"
@@ -173,9 +192,9 @@ class PDBParser(object):
         self._renumber_atoms()
 
         if add_H or not self._has_hydrogens() or trim_H == "notHOH":
-            print("Adding hydrogens to PDB file")
+            logger.info("Adding hydrogens to PDB file")
             self._add_hydrogens()
-            print("Finished adding hydrogens")
+            logger.info("Finished adding hydrogens")
 
         ### Here, pdb_filename is "1xyz_stripped_mm#_H.pdb"
 
@@ -187,7 +206,7 @@ class PDBParser(object):
             self._renumber_atoms()
 
         # Parse individual lines of the pdb file
-        print("Loading atoms into protein object from file:", self.pdb_filename)
+        logger.info("Loading atoms into protein object from file:", self.pdb_filename)
         (
             protein.atoms,
             protein.residues,
@@ -259,7 +278,7 @@ class PDBParser(object):
                     try:
                         chainID1_new_names = new_chain_names[line[21]]
                     except KeyError:
-                        # print("WARNING: Link entry between {} and {} was ignores as chain {} is not part of the final biologically relevant molecule.".format())
+                        # logger.warning("WARNING: Link entry between {} and {} was ignores as chain {} is not part of the final biologically relevant molecule.".format())
                         continue
                     try:
                         chainID2_new_names = new_chain_names[line[51]]
@@ -275,7 +294,7 @@ class PDBParser(object):
                     try:
                         chainID1_new_names = new_chain_names[line[19]]
                     except KeyError:
-                        # print("WARNING: HELIX entry between {} and {} was ignores as chain {} is not part of the final biologically relevant molecule.".format())
+                        # logger.warning("WARNING: HELIX entry between {} and {} was ignores as chain {} is not part of the final biologically relevant molecule.".format())
                         continue
                     try:
                         chainID2_new_names = new_chain_names[line[31]]
@@ -291,7 +310,7 @@ class PDBParser(object):
                     try:
                         chainID1_new_names = new_chain_names[line[21]]
                     except KeyError:
-                        # print("WARNING: HELIX entry between {} and {} was ignores as chain {} is not part of the final biologically relevant molecule.".format())
+                        # logger.warning("WARNING: HELIX entry between {} and {} was ignores as chain {} is not part of the final biologically relevant molecule.".format())
                         continue
                     try:
                         chainID2_new_names = new_chain_names[line[32]]
@@ -368,7 +387,7 @@ class PDBParser(object):
             strip["res_name"] = aa_to_eliminate
         else:
             strip["res_name"] = strip.get("res_name", []) + aa_to_eliminate
-        print("Stripping unwanted atom types from the PDB file", (strip["res_name"]))
+        logger.info("Stripping unwanted atom types from the PDB file", (strip["res_name"]))
 
         out_lines = []
         for line in self.pdb_lines:
@@ -545,7 +564,7 @@ class PDBParser(object):
             self.pdb_filename = self.pdb_filename[0:-4] + "_H.pdb"
 
         else:
-            print(
+            logger.warning(
                 "Sorry, but adding hydrogens with Reduce is currently only implemented for UNIX based operating systems."
             )
 
