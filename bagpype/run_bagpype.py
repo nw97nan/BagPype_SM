@@ -4,7 +4,9 @@ import glob
 import logging
 import importlib
 import pathlib
+import subprocess
 from tqdm import tqdm
+from rdkit import Chem
 
 import create_ligand_Bagpype as create_files
 from bagpype.helper_funcs import create_dir, check_dirpath
@@ -37,6 +39,43 @@ class RunBagPype:
 
         # Define paths
         self.output_dir = create_dir(check_dirpath(output_dir), replace=del_output)     # Create output dir if not exists
+
+
+    def init_from_smiles_string(self, smiles, mol_id='1'):
+        smi = Chem.MolToSmiles(Chem.AddHs(Chem.MolFromSmiles(smiles)), True)
+
+        self.mol_files = [self.output_dir + mol_id + '.mol']
+        self.mol2_files = [self.output_dir + mol_id + '.mol2']
+
+        self.smiles_to_mol_mol2(
+            smi=smi,
+            mol_id=mol_id,
+        )
+
+
+    def init_from_smiles_file(self, smiles_file):
+        pass
+
+
+    def init_from_smiles_dir(self, smiles_dir):
+        pass
+
+
+    def init_from_csv(self, smiles_col_name):
+        pass
+
+
+    def smiles_to_mol_mol2(self, smi, mol_id):
+        smi_file = self.output_dir + mol_id + '.smi'
+
+        with open(smi_file, 'w') as f:
+            f.writelines(smi)
+
+        command_mol = f'obabel -ismi {smi_file} -omol -O {self.mol_files[0]} -h --gen3d'.split(' ')
+        subprocess.run(command_mol, stdout = subprocess.PIPE)
+
+        command_mol2 = f'obabel -ismi {smi_file} -omol2 -O {self.mol2_files[0]} -h --gen3d'.split(' ')
+        subprocess.run(command_mol2, stdout = subprocess.PIPE)
 
 
     def init_from_mol_file(self, mol_file, mol2_file):
