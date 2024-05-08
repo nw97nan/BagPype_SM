@@ -5,6 +5,7 @@ import logging
 import importlib
 import pathlib
 import subprocess
+import pandas as pd
 from tqdm import tqdm
 from rdkit import Chem
 
@@ -44,12 +45,18 @@ class RunBagPype:
     def init_from_smiles_string(self, smiles, mol_id='1'):
         smi = Chem.MolToSmiles(Chem.AddHs(Chem.MolFromSmiles(smiles)), True)
 
-        self.mol_files = [self.output_dir + mol_id + '.mol']
-        self.mol2_files = [self.output_dir + mol_id + '.mol2']
+        self.mol_files = {mol_id: self.output_dir + mol_id + '.mol'}
+        self.mol2_files = {mol_id: self.output_dir + mol_id + '.mol2'}
+
+        smi_file = self.output_dir + mol_id + '.smi'
+
+        with open(smi_file, 'w') as f:
+            f.writelines(smi)
 
         self.smiles_to_mol_mol2(
-            smi=smi,
-            mol_id=mol_id,
+            smi_file=smi_file,
+            mol_file=self.mol_files[mol_id],
+            mol2_file=self.mol2_files[mol_id],
         )
 
 
@@ -58,54 +65,54 @@ class RunBagPype:
 
 
     def init_from_smiles_dir(self, smiles_dir):
-        pass
+        smi_dir = {get_id(file): file for file in glob.glob(check_dirpath(smiles_dir)+'*.smi')}
+        self.mol_files = {get_id(file): self.output_dir + get_id(file) + '.mol' for file in smi_dir}
+        self.mol2_files = {get_id(file): self.output_dir + get_id(file) + '.mol2' for file in smi_dir}
+
+        for mol_id in smi_dir.keys():
+            self.smiles_to_mol_mol2(
+                smi_file=smi_dir[mol_id],
+                mol_file=self.mol_files[mol_id],
+                mol2_file=self.mol2_files[mol_id],
+            )
 
 
     def init_from_csv(self, smiles_col_name):
         pass
 
 
-    def smiles_to_mol_mol2(self, smi, mol_id):
-        smi_file = self.output_dir + mol_id + '.smi'
+    def smiles_to_mol_mol2(self, smi_file, mol_file, mol2_file):
 
-        with open(smi_file, 'w') as f:
-            f.writelines(smi)
-
-        command_mol = f'obabel -ismi {smi_file} -omol -O {self.mol_files[0]} -h --gen3d'.split(' ')
+        command_mol = f'obabel -ismi {smi_file} -omol -O {mol_file} -h --gen3d'.split(' ')
         subprocess.run(command_mol, stdout = subprocess.PIPE)
 
-        command_mol2 = f'obabel -ismi {smi_file} -omol2 -O {self.mol2_files[0]} -h --gen3d'.split(' ')
+        command_mol2 = f'obabel -ismi {smi_file} -omol2 -O {mol2_file} -h --gen3d'.split(' ')
         subprocess.run(command_mol2, stdout = subprocess.PIPE)
 
 
     def init_from_mol_file(self, mol_file, mol2_file):
-        self.mol_files = [mol_file]
-        self.mol2_files = [mol2_file]
+        self.mol_files = {get_id(mol_file): mol_file}
+        self.mol2_files = {get_id(mol2_file): mol2_file}
 
 
     def init_from_mol_dir(self, mol_dir, mol2_dir):
-        self.mol_files = glob.glob(check_dirpath(mol_dir)+'*.mol')
-        self.mol2_files = glob.glob(check_dirpath(mol2_dir)+'*.mol2')
+        self.mol_files = {get_id(file): file for file in glob.glob(check_dirpath(mol_dir)+'*.mol')}
+        self.mol2_files = {get_id(file): file for file in glob.glob(check_dirpath(mol2_dir)+'*.mol2')}
 
 
     def create_bagpype_pdb(self):
 
-        get_id = lambda file : pathlib.Path(file).stem.split('.')[0]
-
-        mol_dict = {get_id(file): file for file in self.mol_files}
-        mol2_dict = {get_id(file): file for file in self.mol2_files}
-
         # Setup tqdm tracking bar
-        pbar = tqdm(total=len(mol_dict))
+        pbar = tqdm(total=len(self.mol_files))
 
-        for mol_id in mol_dict.keys():
+        for mol_id in self.mol_files.keys():
 
             pbar.set_description(f'Working on {mol_id}')
 
             self.run_bagpype(
                 mol_id=mol_id,
-                mol_file=mol_dict[mol_id],
-                mol2_file=mol2_dict[mol_id],
+                mol_file=self.mol_files[mol_id],
+                mol2_file=self.mol2_files[mol_id],
             )
 
             pbar.update()
@@ -163,3 +170,7 @@ class RunBagPype:
             atoms_file_name=atoms_file_name,
             bonds_file_name=bonds_file_name,
         )
+
+
+def get_id(file):
+        return pathlib.Path(file).stem.split('.')[0]
