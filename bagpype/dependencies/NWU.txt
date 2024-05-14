@@ -1,14 +1,61 @@
-RESIDUE   NWU     12
-CONECT      C1     4 C2   H5   H6   H7  
-CONECT      C2     4 C1   C3   H8   H9  
-CONECT      C3     4 C2   O4   H10  H11 
-CONECT      O4     2 C3   H12 
-CONECT      H5     1 C1  
-CONECT      H6     1 C1  
-CONECT      H7     1 C1  
-CONECT      H8     1 C2  
-CONECT      H9     1 C2  
-CONECT      H10    1 C3  
-CONECT      H11    1 C3  
-CONECT      H12    1 O4  
+RESIDUE   NWU     59
+CONECT      H1     1 N9  
+CONECT      H2     1 N10 
+CONECT      H3     1 N12 
+CONECT      H4     1 N13 
+CONECT      O5     1 C30 
+CONECT      O6     1 C40 
+CONECT      O7     1 C49 
+CONECT      O8     1 C59 
+CONECT      N9     3 H1   C30  C31 
+CONECT      N10    3 H2   C37  C40 
+CONECT      N11    2 C41  C48 
+CONECT      N12    3 H3   C49  C50 
+CONECT      N13    3 H4   C56  C59 
+CONECT      C14    3 H15  C16  C29 
+CONECT      H15    1 C14 
+CONECT      C16    3 C14  C17  C59 
+CONECT      C17    3 C16  C18  C28 
+CONECT      C18    3 C17  H19  C20 
+CONECT      H19    1 C18 
+CONECT      C20    3 C18  H21  C22 
+CONECT      H21    1 C20 
+CONECT      C22    3 C20  H23  C24 
+CONECT      H23    1 C22 
+CONECT      C24    3 C22  H25  C26 
+CONECT      H25    1 C24 
+CONECT      C26    3 C24  H27  C28 
+CONECT      H27    1 C26 
+CONECT      C28    3 C17  C26  C29 
+CONECT      C29    3 C14  C30  C28 
+CONECT      C30    3 O5   N9   C29 
+CONECT      C31    4 N9   H32  H33  C34 
+CONECT      H32    1 C31 
+CONECT      H33    1 C31 
+CONECT      C34    4 C31  H35  H36  C37 
+CONECT      H35    1 C34 
+CONECT      H36    1 C34 
+CONECT      C37    4 N10  C34  H38  H39 
+CONECT      H38    1 C37 
+CONECT      H39    1 C37 
+CONECT      C40    3 O6   N10  C41 
+CONECT      C41    3 N11  C40  C42 
+CONECT      C42    3 C41  H43  C44 
+CONECT      H43    1 C42 
+CONECT      C44    3 C42  H45  C46 
+CONECT      H45    1 C44 
+CONECT      C46    3 C44  H47  C48 
+CONECT      H47    1 C46 
+CONECT      C48    3 N11  C49  C46 
+CONECT      C49    3 O7   N12  C48 
+CONECT      C50    4 N12  H51  H52  C53 
+CONECT      H51    1 C50 
+CONECT      H52    1 C50 
+CONECT      C53    4 C50  H54  H55  C56 
+CONECT      H54    1 C53 
+CONECT      H55    1 C53 
+CONECT      C56    4 N13  C53  H57  H58 
+CONECT      H57    1 C56 
+CONECT      H58    1 C56 
+CONECT      C59    3 O8   N13  C16 
 END
