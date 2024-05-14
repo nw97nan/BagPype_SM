@@ -1,0 +1,8 @@
+mol_id,smiles
+methanol,CO
+ethanol,CCO
+npropanol,CCCO
+isopropanol,C(C)CO
+nbutanol,CCCCO
+secbutanol,C(C)(C)CO
+tertbutanol,C(C)(C)(C)O

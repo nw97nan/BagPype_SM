@@ -77,7 +77,40 @@ class RunBagPype:
             )
 
 
-    def init_from_csv(self, smiles_col_name):
+    def create_mol_dir(self, mol_id):
+        return create_dir(self.output_dir, f'{mol_id}/', replace=True)
+
+
+    def gen_mol_mol2(self, mol_id_lst):
+        self.mol_files = {mol_id: self.mol_dir[mol_id] + mol_id + '.mol' for mol_id in mol_id_lst}
+        self.mol2_files = {mol_id: self.mol_dir[mol_id] + mol_id + '.mol2' for mol_id in mol_id_lst}
+
+
+    def gen_smi_file(self, smi, mol_id):
+        smi_file = self.mol_dir[mol_id] + mol_id + '.smi'
+        with open(smi_file, 'w') as f:
+            f.writelines(smi)
+        return smi_file
+
+
+    def init_from_csv(self, csv_file, index_col, smiles_col_name):
+
+        smi_ser = pd.read_csv(csv_file, index_col=index_col)[smiles_col_name]
+        self.mol_dir = {mol_id: self.create_mol_dir(mol_id) for mol_id in smi_ser.index}
+
+        self.gen_mol_mol2(
+            mol_id_lst=smi_ser.index,
+        )
+
+        for mol_id, smi in smi_ser.items():
+            self.smiles_to_mol_mol2(
+                smi_file=self.gen_smi_file(smi, mol_id),
+                mol_file=self.mol_files[mol_id],
+                mol2_file=self.mol2_files[mol_id],
+            )
+
+
+    def init_from_df(self, df):
         pass
 
 
