@@ -41,6 +41,9 @@ class RunBagPype:
         # Define paths
         self.output_dir = create_dir(check_dirpath(output_dir), replace=del_output)     # Create output dir if not exists
 
+        # Empty mymol dict
+        self.mymol_dict = {}
+
 
     def init_from_smiles_string(self, smiles, mol_id='1'):
         smi = Chem.MolToSmiles(Chem.AddHs(Chem.MolFromSmiles(smiles)), True)
@@ -181,11 +184,11 @@ class RunBagPype:
 
         importlib.reload(bagpype)
 
-        myprot = bagpype.molecules.Protein()
+        mymol = bagpype.molecules.Protein()
         parser = bagpype.parsing.PDBParser(pdb_file)
 
         parser.parse(
-            myprot,
+            mymol,
             strip=strip,
             trim_H=trim_H,
             add_H=add_H,
@@ -198,11 +201,13 @@ class RunBagPype:
         bonds_file_name = mol_dir + mol_id + '_bonds.csv'
 
         ggenerator.construct_graph(
-            myprot,
+            mymol,
             mol_id,
             atoms_file_name=atoms_file_name,
             bonds_file_name=bonds_file_name,
         )
+
+        self.mymol_dict[mol_id] = mymol
 
 
 def get_id(file):
