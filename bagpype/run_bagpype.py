@@ -34,24 +34,29 @@ logger.addHandler(sh)
 class RunBagPype:
     def __init__(
             self,
-            output_dir='output/',           # Dir for all outputs to be saved in
-            del_output=True,
+            output_dir: str = 'output/',
+            del_output: bool = True,
     ) -> None:
 
-        # Define paths
-        self.output_dir = create_dir(check_dirpath(output_dir), replace=del_output)     # Create output dir if not exists
-
-        # Empty mymol dict
-        self.mymol_dict = {}
+        self.output_dir: str = create_dir(check_dirpath(output_dir), replace=del_output)
+        self.mymol_dict: dict = {}
 
 
-    def init_from_smiles_string(self, smiles, mol_id='1'):
-        smi = Chem.MolToSmiles(Chem.AddHs(Chem.MolFromSmiles(smiles)), True)
+    def init_from_smiles_string(self, smiles: str, mol_id: str = '1') -> None:
+        """Converts input SMILES strings to MOL and MOL2 files required for BagPype. Isomeric SMILES and
+        AddHs options set to True. SMI file written to disk before being converted to MOL and MOL2 files
+        with the same STEM (mol_id).
 
-        self.mol_files = {mol_id: self.output_dir + mol_id + '.mol'}
-        self.mol2_files = {mol_id: self.output_dir + mol_id + '.mol2'}
+        Args:
+            smiles (str): SMILES string
+            mol_id (str, optional): Unique ID to used as dict key. Defaults to '1'.
+        """
+        smi: str = Chem.MolToSmiles(Chem.AddHs(Chem.MolFromSmiles(smiles)), isomericSmiles=True)
 
-        smi_file = self.output_dir + mol_id + '.smi'
+        self.mol_files: dict[str, str] = {mol_id: self.output_dir + mol_id + '.mol'}
+        self.mol2_files: dict[str, str] = {mol_id: self.output_dir + mol_id + '.mol2'}
+
+        smi_file: str = self.output_dir + mol_id + '.smi'
 
         with open(smi_file, 'w') as f:
             f.writelines(smi)
@@ -63,11 +68,11 @@ class RunBagPype:
         )
 
 
-    def init_from_smiles_file(self, smiles_file):
+    def init_from_smiles_file(self, smiles_file: str):
         pass
 
 
-    def init_from_smiles_dir(self, smiles_dir):
+    def init_from_smiles_dir(self, smiles_dir: str):
         smi_dir = {get_id(file): file for file in glob.glob(check_dirpath(smiles_dir)+'*.smi')}
         self.mol_files = {get_id(file): self.output_dir + get_id(file) + '.mol' for file in smi_dir}
         self.mol2_files = {get_id(file): self.output_dir + get_id(file) + '.mol2' for file in smi_dir}
@@ -117,7 +122,15 @@ class RunBagPype:
         pass
 
 
-    def smiles_to_mol_mol2(self, smi_file, mol_file, mol2_file):
+    def smiles_to_mol_mol2(self, smi_file: str, mol_file: str, mol2_file: str) -> None:
+        """Use subprocess to run obabel from the CLI to convert the SMILES file to both MOL and MOL2 files.
+        Generate 3D coordiantes (--gen3d) and add Hs (-h) options used.
+
+        Args:
+            smi_file (str): SMILES file to be converted.
+            mol_file (str): Filename of output MOL file.
+            mol2_file (str): Filename of output MOL2 file.
+        """
 
         command_mol = f'obabel -ismi {smi_file} -omol -O {mol_file} -h --gen3d'.split(' ')
         subprocess.run(command_mol, stdout = subprocess.PIPE)
